@@ -27,3 +27,11 @@ class OrderCreateView(APIView):
             order = serializer.save()
             return Response({"message": "Order created successfully", "order_id": order.id})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+from rest_framework import generics
+from .models import OrderItem
+from .serializers import OrderItemSerializer
+
+class OrderItemUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer

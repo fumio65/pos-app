@@ -27,6 +27,24 @@ function CartPanel() {
     } finally {
       setLoading(false);
     }
+
+    const handleUpdateQuantity = async (itemId, newQty) => {
+      try {
+        await updateOrderItem(itemId, newQty);
+        updateQuantity(itemId, newQty);
+      } catch (err) {
+        setError("Failed to update quantity");
+      }
+    };
+
+    const handleRemoveItem = async (itemId) => {
+      try {
+        await deleteOrderItem(itemId);
+        removeFromCart(itemId);
+      } catch (err) {
+        setError("Failed to remove item");
+      }
+    };
   };
 
   return (
@@ -47,13 +65,13 @@ function CartPanel() {
                   {item.name} x{" "}
                   <input
                     type="number"
-                    min="1"
                     value={item.quantity}
-                    onChange={(e) =>
-                      updateQuantity(item.id, parseInt(e.target.value))
-                    }
-                    className="w-12 text-center border rounded ml-2"
+                    onChange={(e) => handleUpdateQuantity(item.id, e.target.value)}
                   />
+
+                  <button onClick={() => handleRemoveItem(item.id)}>
+                    Remove
+                  </button>
                 </span>
                 <div>
                   ₱ {(item.price * item.quantity).toFixed(2)}{" "}

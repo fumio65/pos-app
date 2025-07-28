@@ -18,3 +18,12 @@ export const createOrder = async (cartItems) => {
     throw error.response?.data || { error: "Order creation failed" };
   }
 };
+
+export const updateOrderItem = async (id, quantity) => {
+  return axios.put(`${BASE_URL}/order-items/${id}/`, { quantity });
+};
+
+export const deleteOrderItem = async (id) => {
+  return axios.delete(`${BASE_URL}/order-items/${id}/`);
+};
+
