@@ -27,3 +27,8 @@ export const deleteOrderItem = async (id) => {
   return axios.delete(`${BASE_URL}/order-items/${id}/`);
 };
 
+export const getUserOrders = (token) => {
+  return axios.get('/api/my-orders/', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

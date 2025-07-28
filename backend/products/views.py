@@ -35,3 +35,16 @@ from .serializers import OrderItemSerializer
 class OrderItemUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
+
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
+from .models import Order
+from .serializers import OrderSerializer
+
+class MyOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(customer=self.request.user)
